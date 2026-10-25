@@ -1,0 +1,346 @@
+/* -------------------------------------------------------------
+   CSS Variables & Base Theme
+   Easily customize light/dark neutral tones
+   ------------------------------------------------------------- */
+:root {
+  --bg-light: #f4f1ec;
+  --bg-dark: #16161a;
+  --text-light: rgba(22, 22, 26, 0.4);
+  --text-dark: #e6e3dd;
+  --dot-light: rgba(22, 22, 26, 0.25);
+  --dot-active-light: rgba(22, 22, 26, 0.65);
+  --dot-dark: rgba(230, 227, 221, 0.25);
+  --dot-active-dark: rgba(230, 227, 221, 0.7);
+
+  /* Email link color */
+  --email-color-light: #4a4a4a;
+  --email-color-dark: #e6e3dd;
+
+  /* Switch colors */
+  --switch-track-border-light: rgba(22, 22, 26, 0.15);
+  --switch-track-bg-light: rgba(22, 22, 26, 0.05);
+  --switch-thumb-light: #ffffff;
+  --switch-icon-light: rgba(22, 22, 26, 0.5);
+
+  --switch-track-border-dark: rgba(230, 227, 221, 0.2);
+  --switch-track-bg-dark: rgba(230, 227, 221, 0.08);
+  --switch-thumb-dark: #2a2a30;
+  --switch-icon-dark: rgba(230, 227, 221, 0.6);
+
+  /* Current active theme colors */
+  --bg-base: var(--bg-light);
+  --bg-current: var(--bg-light);
+  --text-muted: var(--text-light);
+  --email-color: var(--email-color-light);
+  --dot-color: var(--dot-light);
+  --dot-active: var(--dot-active-light);
+
+  --switch-track-border: var(--switch-track-border-light);
+  --switch-track-bg: var(--switch-track-bg-light);
+  --switch-thumb: var(--switch-thumb-light);
+  --switch-icon: var(--switch-icon-light);
+
+  --transition-bg: background-color 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+[data-theme="dark"] {
+  --bg-base: var(--bg-dark);
+  --bg-current: var(--bg-dark);
+  --text-muted: var(--text-dark);
+  --email-color: var(--email-color-dark);
+  --dot-color: var(--dot-dark);
+  --dot-active: var(--dot-active-dark);
+
+  --switch-track-border: var(--switch-track-border-dark);
+  --switch-track-bg: var(--switch-track-bg-dark);
+  --switch-thumb: var(--switch-thumb-dark);
+  --switch-icon: var(--switch-icon-dark);
+}
+
+/* -------------------------------------------------------------
+   Reset & Document Setup
+   ------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg-current);
+  color: var(--text-muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  transition: var(--transition-bg);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* -------------------------------------------------------------
+   Theme Switch (Accessible Icon-only Pill)
+   ------------------------------------------------------------- */
+.theme-toggle {
+  position: fixed;
+  top: max(1.25rem, env(safe-area-inset-top, 0px) + 0.75rem);
+  right: max(1.25rem, env(safe-area-inset-right, 0px) + 0.75rem);
+  z-index: 100;
+  background: transparent;
+  border: none;
+  padding: 8px; /* Expands 52x28 visual size to 68x44 tap target */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.switch-track {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background-color: var(--switch-track-bg);
+  border: 1px solid var(--switch-track-border);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  box-sizing: border-box;
+  transition: background-color 250ms ease, border-color 250ms ease;
+}
+
+.switch-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--switch-icon);
+  z-index: 1;
+  pointer-events: none;
+  transition: color 250ms ease, opacity 250ms ease;
+}
+
+.icon-sun {
+  opacity: 0.9;
+}
+
+.icon-moon {
+  opacity: 0.4;
+}
+
+[data-theme="dark"] .icon-sun {
+  opacity: 0.4;
+}
+
+[data-theme="dark"] .icon-moon {
+  opacity: 0.9;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  background-color: var(--switch-thumb);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), background-color 250ms ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Slide thumb to the right in dark mode */
+[data-theme="dark"] .switch-thumb {
+  transform: translateX(24px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--email-color);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------
+   Gallery Sections
+   ------------------------------------------------------------- */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.artwork-section {
+  min-height: 88vh;
+  min-height: 88dvh;
+  min-height: 88svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5vh 6vw;
+  position: relative;
+}
+
+/* Scroll cue indicator on the first artwork */
+.scroll-cue {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-muted);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  animation: cueFadeIn 1s ease 2s forwards, cueBob 3s ease-in-out 3s infinite;
+  transition: opacity 400ms ease;
+}
+
+.scroll-cue.is-hidden {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+.scroll-cue svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.45;
+}
+
+@keyframes cueFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cueBob {
+  0%, 100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 7px);
+  }
+}
+
+/* Initial gentle fade-in for the very first artwork */
+.artwork-section:first-child .artwork-stage {
+  animation: firstArtworkFadeIn 1.4s ease-out both;
+}
+
+@keyframes firstArtworkFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.artwork-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90vw;
+  max-height: 82vh;
+  max-height: 82dvh;
+}
+
+.artwork-container {
+  position: relative;
+  display: grid;
+  place-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Artwork image styling */
+.artwork-img {
+  max-width: 88vw;
+  max-height: 78vh;
+  max-height: 78dvh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* -------------------------------------------------------------
+   Contact Footer
+   ------------------------------------------------------------- */
+.contact-footer {
+  min-height: 25vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1.5rem calc(6rem + env(safe-area-inset-bottom, 0px));
+}
+
+.email-link {
+  color: var(--email-color);
+  font-size: clamp(16px, 1.8vw, 17px);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  opacity: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.email-link:focus-visible {
+  outline: 2px solid var(--email-color);
+  outline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+/* -------------------------------------------------------------
+   Prefers-reduced-motion
+   ------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .artwork-section:first-child .artwork-stage,
+  .switch-thumb,
+  .switch-track,
+  .switch-icon {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .scroll-cue {
+    opacity: 0.45 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
